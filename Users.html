@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PromptTemplates | Premium Website Templates</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" href="" id="dynamic-favicon">
+    <style>
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: white;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .loading-progress {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        
+        .loading-progress-bar {
+            height: 100%;
+            background: white;
+            width: 0%;
+            animation: progress 5s linear forwards;
+        }
+        
+        @keyframes progress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <h2>Loading Premium Templates</h2>
+        <p>Please wait while we prepare your experience...</p>
+        <div class="loading-progress">
+            <div class="loading-progress-bar"></div>
+        </div>
+    </div>
+
+    <!-- User Interface -->
+    <div id="user-interface" style="display: none;">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo-container">
+                        <img src="" alt="Platform Logo" id="platform-logo" class="platform-logo">
+                        <h1 id="platform-name" class="platform-name">PromptTemplates</h1>
+                    </div>
+                    <nav class="main-nav">
+                        <ul>
+                            <li><a href="#home" class="nav-link active">Home</a></li>
+                            <li><a href="#templates" class="nav-link">Templates</a></li>
+                            <li><a href="#contact" class="nav-link">Contact</a></li>
+                        </ul>
+                    </nav>
+                    <div class="header-actions">
+                        <button class="btn btn-outline" id="admin-login-btn">
+                            <i class="fas fa-user-shield"></i> Admin
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero-section" id="home">
+            <div class="container">
+                <div class="hero-content">
+                    <h2 class="hero-title">Professional Website Templates</h2>
+                    <p class="hero-description">Browse and purchase premium website templates. Instant download after M-Pesa payment.</p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" id="view-templates-btn">
+                            <i class="fas fa-eye"></i> Browse Templates
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <!-- Selection Panel -->
+                <div class="selection-panel" id="selection-panel" style="display: none;">
+                    <div class="selection-info">
+                        <h3><i class="fas fa-shopping-cart"></i> Selected Items</h3>
+                        <p class="selected-count">
+                            <span id="selected-templates-count">0</span> template(s) selected • 
+                            Total: KSh <span id="total-price">0</span>
+                        </p>
+                    </div>
+                    <div class="selection-actions">
+                        <button class="btn btn-outline" id="preview-selected-btn">
+                            <i class="fas fa-external-link-alt"></i> Preview Selected
+                        </button>
+                        <button class="btn btn-success" id="purchase-selected-btn">
+                            <i class="fas fa-mobile-alt"></i> Pay with M-Pesa
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Templates Section -->
+                <section class="templates-section" id="templates">
+                    <h2 class="section-title">Available Templates</h2>
+                    <p class="section-subtitle">Select templates to preview or purchase</p>
+                    
+                    <div class="templates-filters">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="template-search" placeholder="Search templates...">
+                        </div>
+                        <div class="sort-options">
+                            <select id="sort-templates" class="form-control">
+                                <option value="newest">Newest First</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="templates-grid" id="templates-container">
+                        <!-- Templates will be loaded here -->
+                    </div>
+
+                    <div class="no-templates" id="no-templates" style="display: none;">
+                        <i class="fas fa-box-open fa-3x"></i>
+                        <h3>No Templates Available</h3>
+                        <p>Check back soon for new template additions.</p>
+                    </div>
+                </section>
+
+                <!-- Contact Section -->
+                <section class="social-contact-section" id="contact">
+                    <h2 class="section-title">Connect With Us</h2>
+                    <div class="social-contact-grid">
+                        <div class="contact-card">
+                            <i class="fas fa-phone-alt contact-icon"></i>
+                            <h3>Call Us</h3>
+                            <p id="contact-phone-display">+254 700 000 000</p>
+                            <a href="tel:+254700000000" class="btn btn-outline contact-btn" id="phone-link">
+                                <i class="fas fa-phone"></i> Call Now
+                            </a>
+                        </div>
+                        <div class="contact-card">
+                            <i class="fas fa-envelope contact-icon"></i>
+                            <h3>Email Us</h3>
+                            <p id="contact-email-display">support@prompttemplates.com</p>
+                            <a href="mailto:support@prompttemplates.com" class="btn btn-outline contact-btn" id="email-link">
+                                <i class="fas fa-envelope"></i> Send Email
+                            </a>
+                        </div>
+                        <div class="social-card">
+                            <h3>Follow Us</h3>
+                            <div class="social-icons">
+                                <a href="#" id="tiktok-link" class="social-icon tiktok" target="_blank">
+                                    <i class="fab fa-tiktok"></i>
+                                </a>
+                                <a href="#" id="facebook-link" class="social-icon facebook" target="_blank">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <img src="" alt="Logo" id="footer-logo" class="footer-logo">
+                        <h3 id="footer-platform-name">PromptTemplates</h3>
+                        <p class="footer-description">Premium digital templates marketplace</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Quick Links</h4>
+                        <ul class="footer-links">
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#templates">Templates</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Contact Info</h4>
+                        <p><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</p>
+                        <p><i class="fas fa-phone"></i> <span id="footer-phone">+254 700 000 000</span></p>
+                        <p><i class="fas fa-envelope"></i> <span id="footer-email">support@prompttemplates.com</span></p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Payment Methods</h4>
+                        <div class="payment-methods">
+                            <div class="payment-method">
+                                <i class="fas fa-mobile-alt"></i>
+                                <span>Safaricom M-Pesa</span>
+                            </div>
+                            <div class="payment-method">
+                                <i class="fas fa-sim-card"></i>
+                                <span>Airtel Money</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; <span id="current-year">2025</span> <span id="copyright-name">PromptTemplates</span>. Cornelius and associates softwares.All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div id="admin-login-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-shield"></i> Admin Login</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="validation-info">
+                    <p><i class="fas fa-info-circle"></i> Authorized personnel only</p>
+                </div>
+                <form id="admin-login-form">
+                    <div class="form-group">
+                        <label for="login-username" class="form-label">Username</label>
+                        <input type="text" id="login-username" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password" class="form-label">Password</label>
+                        <input type="password" id="login-password" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </button>
+                    </div>
+                </form>
+                <p style="text-align: center; margin-top: 15px; color: #666; font-size: 14px;">
+                    <i class="fas fa-shield-alt"></i> Secure Admin Portal
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="preview-modal" class="modal">
+        <div class="modal-content preview-modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-eye"></i> Template Preview</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="preview-container">
+                    <iframe id="preview-frame" class="preview-frame"></iframe>
+                </div>
+                <div class="preview-actions">
+                    <button class="btn btn-outline" id="close-preview-btn">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- M-Pesa Payment Modal -->
+    <div id="mpesa-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-mobile-alt"></i> Pay with M-Pesa</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="payment-summary">
+                    <h4>Order Summary</h4>
+                    <div class="order-details" id="order-details">
+                        <!-- Items will be loaded here -->
+                    </div>
+                    <div class="order-total">
+                        <span>Total Amount:</span>
+                        <span class="total-amount">KSh <span id="mpesa-total">0</span></span>
+                    </div>
+                </div>
+                
+                <div class="validation-info">
+                    <p><i class="fas fa-info-circle"></i> Enter your M-Pesa registered phone number</p>
+                    <p><i class="fas fa-info-circle"></i> You will receive a payment request</p>
+                </div>
+                
+                <form id="mpesa-payment-form">
+                    <div class="form-group">
+                        <label for="customer-name" class="form-label">Full Name *</label>
+                        <input type="text" id="customer-name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-email" class="form-label">Email Address *</label>
+                        <input type="email" id="customer-email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-phone" class="form-label">Phone Number *</label>
+                        <div class="phone-input-group">
+                            <span class="phone-prefix">+254</span>
+                            <input type="tel" id="customer-phone" class="form-control" 
+                                   pattern="[0-9]{9}" 
+                                   placeholder="700000000" 
+                                   maxlength="9" 
+                                   required>
+                        </div>
+                        <small class="form-text">Enter your Safaricom/Airtel number without 0</small>
+                    </div>
+                    
+                    <div class="payment-instructions">
+                        <h5><i class="fas fa-list-ol"></i> Payment Steps:</h5>
+                        <ol>
+                            <li>Enter your phone number</li>
+                            <li>Click "Pay Now"</li>
+                            <li>Check phone for STK Push</li>
+                            <li>Enter your PIN</li>
+                            <li>Wait for confirmation</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success" id="pay-now-btn" style="width: 100%;">
+                            <i class="fas fa-paper-plane"></i> Pay Now
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="payment-status" id="payment-status" style="display: none;">
+                    <div class="status-content">
+                        <div class="spinner"></div>
+                        <h4>Processing Payment...</h4>
+                        <p>Please check your phone</p>
+                        <div class="countdown" id="payment-countdown">60</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content success-modal">
+            <div class="modal-body">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>Payment Successful!</h3>
+                <p>Thank you for your purchase.</p>
+                
+                <div class="success-details">
+                    <p><strong>Transaction ID:</strong> <span id="success-transaction-id">TXN-12345</span></p>
+                    <p><strong>Amount:</strong> KSh <span id="success-amount">0</span></p>
+                    <p><strong>Receipt:</strong> <span id="success-receipt">REC12345</span></p>
+                </div>
+                
+                <div class="download-section">
+                    <h5><i class="fas fa-download"></i> Download Your Templates</h5>
+                    <a href="#" id="download-link" class="btn btn-primary download-btn" target="_blank">
+                        <i class="fas fa-file-archive"></i> Download ZIP File
+                    </a>
+                    <p class="download-note">
+                        <i class="fas fa-info-circle"></i> Link expires in 24 hours
+                    </p>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="btn btn-outline" id="close-success-btn">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notifications-container"></div>
+
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/user.js"></script>
+</body>
+  </html>
